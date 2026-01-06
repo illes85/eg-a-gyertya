@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-wax-100 text-earth-dark font-sans;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif text-earth-dark;
+  }
+}
