@@ -1,23 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Leaf, Heart, Recycle } from 'lucide-react';
+import illesPortrait from '../img/illes-01.png';
 
 const About = () => {
   return (
     <div className="min-h-screen bg-wax-100 font-sans text-earth-dark">
-       {/* Navbar egyszerűsített */}
-       <nav className="fixed w-full bg-white/80 backdrop-blur-md z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex items-center gap-2 text-earth hover:text-lavender transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Vissza a főoldalra</span>
-            </Link>
-            <h1 className="text-xl font-serif font-bold text-lavender">Ég a gyertya</h1>
-            <div className="w-20"></div> {/* Placeholder a szimmetria miatt */}
-          </div>
-        </div>
-      </nav>
-
       <main className="pt-16">
         {/* Hero */}
         <div className="relative h-[400px] md:h-[500px]">
@@ -85,7 +72,7 @@ const About = () => {
             <section className="flex flex-col md:flex-row items-center gap-12 bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-wax-200">
                 <div className="w-full md:w-1/3 aspect-square rounded-2xl overflow-hidden shadow-lg">
                     <img 
-                        src="https://images.unsplash.com/photo-1581579186913-45ac3e6e3dd2?auto=format&fit=crop&q=80&w=800" 
+                        src={illesPortrait}
                         alt="Készítő portré" 
                         className="w-full h-full object-cover"
                     />

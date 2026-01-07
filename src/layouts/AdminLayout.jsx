@@ -7,7 +7,9 @@ const AdminLayout = ({ children }) => {
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-wax-200 hidden md:flex flex-col">
         <div className="p-6 border-b border-wax-200">
-          <h1 className="text-xl font-serif font-bold text-lavender">Ég a gyertya</h1>
+          <Link to="/" className="text-xl font-serif font-bold text-lavender hover:opacity-80 transition-opacity block">
+            Ég a gyertya
+          </Link>
           <span className="text-xs text-earth uppercase tracking-widest">Admin</span>
         </div>
         

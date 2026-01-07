@@ -56,14 +56,6 @@ const ProductList = ({ products, onAddToCart }) => {
              </div>
           )}
         </div>
-        
-        {filteredProducts.length > 0 && (
-          <div className="mt-16 text-center">
-            <button className="border-2 border-lavender text-lavender hover:bg-lavender hover:text-white px-10 py-4 rounded-full font-medium transition-all duration-300">
-              Összes termék megtekintése
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );

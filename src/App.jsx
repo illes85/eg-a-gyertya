@@ -1,10 +1,12 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Checkout from './pages/Checkout';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLayout from './layouts/AdminLayout';
+import Navbar from './components/Navbar';
+import Cart from './components/Cart';
 import { products as initialProducts } from './data/products';
 
 function App() {
@@ -66,6 +68,14 @@ function App() {
 
   return (
     <Router>
+      <Navbar cartItems={cartItems} setIsCartOpen={setIsCartOpen} />
+      <Cart 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cartItems}
+        onRemoveItem={handleRemoveFromCart}
+        onUpdateQuantity={handleUpdateQuantity}
+      />
       <Routes>
         {/* Publikus oldal (Webshop) */}
         <Route 
@@ -73,12 +83,7 @@ function App() {
           element={
             <Home 
               products={products}
-              cartItems={cartItems}
-              isCartOpen={isCartOpen}
-              setIsCartOpen={setIsCartOpen}
               addToCart={handleAddToCart}
-              removeFromCart={handleRemoveFromCart}
-              updateQuantity={handleUpdateQuantity}
             />
           } 
         />
@@ -105,5 +110,3 @@ function App() {
 }
 
 export default App;
-
-

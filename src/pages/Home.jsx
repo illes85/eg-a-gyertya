@@ -1,57 +1,74 @@
-import { ShoppingBag, Star, Wind } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Star, Wind, ShoppingBag, ArrowUp } from 'lucide-react';
 import ProductList from '../components/ProductList';
-import Cart from '../components/Cart';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const Home = ({ products, cartItems, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity }) => {
-  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+// Dinamikusan beolvassuk az összes videót a hero mappából
+const heroVideos = import.meta.glob('../vids/hero/*.mp4', { eager: true, import: 'default' });
+const videoList = Object.values(heroVideos);
+
+const Home = ({ products, addToCart }) => {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  // Kezdésnek az első videót állítjuk be, de az useEffect azonnal felülírja ha több van
+  const [currentHeroVideo, setCurrentHeroVideo] = useState(videoList[0]);
+  const location = useLocation();
+
+  useEffect(() => {
+    // Random videó kiválasztása a dinamikus listából
+    if (videoList.length > 0) {
+      const randomVideo = videoList[Math.floor(Math.random() * videoList.length)];
+      setCurrentHeroVideo(randomVideo);
+    }
+
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Hash navigáció kezelése (pl. másik oldalról érkezve)
+  useEffect(() => {
+    if (location.hash) {
+      const elem = document.getElementById(location.hash.slice(1));
+      if (elem) {
+        setTimeout(() => {
+          elem.scrollIntoView({ behavior: 'smooth' });
+        }, 100); // Kis késleltetés a renderelés miatt
+      }
+    }
+  }, [location]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
-    <div className="min-h-screen bg-wax-100">
-      {/* Navbar */}
-      <nav className="fixed w-full bg-white/80 backdrop-blur-md z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex-shrink-0">
-              <h1 className="text-2xl font-serif text-lavender font-bold">Ég a gyertya</h1>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-8">
-                <Link to="/" className="hover:text-lavender transition-colors font-medium">Kezdőlap</Link>
-                <a href="#webshop" className="hover:text-lavender transition-colors font-medium">Webshop</a>
-                <Link to="/about" className="hover:text-lavender transition-colors font-medium">Rólunk</Link>
-                <Link to="/admin" className="hover:text-lavender transition-colors font-medium text-lavender-dark">Admin</Link>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button 
-                onClick={() => setIsCartOpen(true)}
-                className="p-2 hover:bg-wax-200 rounded-full transition-colors relative group"
-              >
-                <ShoppingBag className="w-6 h-6 text-earth group-hover:text-lavender" />
-                {totalItems > 0 && (
-                  <span className="absolute top-0 right-0 bg-lavender text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center animate-bounce">
-                    {totalItems}
-                  </span>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <Cart 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        onRemoveItem={removeFromCart}
-        onUpdateQuantity={updateQuantity}
-      />
-
+    <div className="min-h-screen bg-wax-100 relative pt-16">
       {/* Hero Section */}
-      <div className="relative pt-16">
-        <div className="absolute inset-0 z-0">
-             <div className="w-full h-full bg-gradient-to-r from-wax-100 via-wax-50 to-lavender-light/20"></div>
+      <div className="relative">
+        <div className="absolute inset-0 z-0 overflow-hidden h-full">
+             <video 
+                key={currentHeroVideo} // Fontos: key attribútum a re-rendereléshez
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+             >
+                <source src={currentHeroVideo} type="video/mp4" />
+             </video>
+             <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]"></div>
+             {/* Fade out effect at the bottom */}
+             <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-wax-100 to-transparent z-10"></div>
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
@@ -72,9 +89,9 @@ const Home = ({ products, cartItems, isCartOpen, setIsCartOpen, addToCart, remov
               <a href="#webshop" className="bg-lavender hover:bg-lavender-dark text-white px-8 py-3 rounded-full font-medium transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center">
                 Vásárlás
               </a>
-              <button className="border-2 border-lavender text-lavender hover:bg-lavender-light/20 px-8 py-3 rounded-full font-medium transition-colors">
+              <a href="#more-info" className="border-2 border-lavender text-lavender hover:bg-lavender-light/20 px-8 py-3 rounded-full font-medium transition-colors text-center cursor-pointer">
                 Tudj meg többet
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -109,6 +126,49 @@ const Home = ({ products, cartItems, isCartOpen, setIsCartOpen, addToCart, remov
         </div>
       </div>
 
+      {/* More Info Section */}
+      <section id="more-info" className="py-24 bg-wax-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="w-full md:w-1/2">
+               <div className="relative rounded-3xl overflow-hidden shadow-xl aspect-[4/3]">
+                 <img 
+                   src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=1000" 
+                   alt="Gyertyakészítés folyamata" 
+                   className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                 <div className="absolute bottom-6 left-6 text-white">
+                    <p className="font-serif italic text-lg">"A fény születése"</p>
+                 </div>
+               </div>
+            </div>
+            <div className="w-full md:w-1/2 space-y-6">
+               <h2 className="text-3xl md:text-4xl font-serif font-bold text-earth-dark">
+                 Több mint egy egyszerű láng
+               </h2>
+               <div className="w-20 h-1 bg-lavender rounded-full"></div>
+               <p className="text-lg text-earth leading-relaxed">
+                 Az <strong>Ég a gyertya</strong> műhelyében minden darab egyedi történetet mesél el. 
+                 Nem ipari sorozatgyártásban készülnek, hanem gondos odafigyeléssel, lépésről lépésre.
+               </p>
+               <p className="text-earth leading-relaxed">
+                 A felhasznált szójaviasz nemcsak környezetbarát, de égése során nem bocsát ki káros anyagokat, 
+                 így tisztán élvezheted a természetes illóolajok aromaterápiás hatását. 
+                 Minden tégelyt úgy tervezünk, hogy miután a gyertya leégett, új életet kezdhessen otthonodban – 
+                 akár ékszertartóként vagy kaspóként.
+               </p>
+               <div className="pt-4">
+                 <Link to="/about" className="text-lavender font-bold hover:text-lavender-dark transition-colors inline-flex items-center gap-2 group">
+                   Ismerd meg a teljes történetünket 
+                   <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                 </Link>
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Product List Section */}
       {/* Most már props-ból kapja a termékeket is */}
       <ProductList products={products} onAddToCart={addToCart} />
@@ -123,6 +183,17 @@ const Home = ({ products, cartItems, isCartOpen, setIsCartOpen, addToCart, remov
           </div>
         </div>
       </footer>
+
+      {/* Back to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 bg-lavender hover:bg-lavender-dark text-white p-3 rounded-full shadow-lg transition-all duration-300 z-40 ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
+        aria-label="Vissza a tetejére"
+      >
+        <ArrowUp className="w-6 h-6" />
+      </button>
     </div>
   );
 };

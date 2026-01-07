@@ -55,20 +55,6 @@ const Checkout = ({ cartItems }) => {
 
   return (
     <div className="min-h-screen bg-wax-100 font-sans text-earth-dark">
-      {/* Navbar */}
-      <nav className="fixed w-full bg-white/80 backdrop-blur-md z-50 shadow-sm border-b border-wax-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex items-center gap-2 text-earth hover:text-lavender transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium hidden sm:inline">Vásárlás folytatása</span>
-            </Link>
-            <h1 className="text-xl font-serif font-bold text-lavender">Pénztár</h1>
-            <div className="w-20"></div> 
-          </div>
-        </div>
-      </nav>
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
           
