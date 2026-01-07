@@ -1,11 +1,9 @@
 import { ShoppingBag, Star, Wind } from 'lucide-react';
 import ProductList from '../components/ProductList';
 import Cart from '../components/Cart';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Home = ({ products, cartItems, addToCart, removeFromCart, updateQuantity }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
+const Home = ({ products, cartItems, isCartOpen, setIsCartOpen, addToCart, removeFromCart, updateQuantity }) => {
   const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
@@ -21,6 +19,7 @@ const Home = ({ products, cartItems, addToCart, removeFromCart, updateQuantity }
               <div className="ml-10 flex items-baseline space-x-8">
                 <Link to="/" className="hover:text-lavender transition-colors font-medium">Kezdőlap</Link>
                 <a href="#webshop" className="hover:text-lavender transition-colors font-medium">Webshop</a>
+                <Link to="/about" className="hover:text-lavender transition-colors font-medium">Rólunk</Link>
                 <Link to="/admin" className="hover:text-lavender transition-colors font-medium text-lavender-dark">Admin</Link>
               </div>
             </div>

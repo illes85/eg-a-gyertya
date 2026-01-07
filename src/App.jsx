@@ -1,14 +1,17 @@
 ﻿import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import About from './pages/About';
+import Checkout from './pages/Checkout';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLayout from './layouts/AdminLayout';
 import { products as initialProducts } from './data/products';
 
 function App() {
-  // Központi állapot a termékeknek, hogy az admin felületen is módosítható legyen
+  // Központi állapot
   const [products, setProducts] = useState(initialProducts);
   const [cartItems, setCartItems] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false); // Felemelt állapot
 
   // --- Webshop Logic ---
   const handleAddToCart = (product) => {
@@ -23,6 +26,7 @@ function App() {
       }
       return [...prevItems, { ...product, quantity: 1 }];
     });
+    setIsCartOpen(true); // Kosár megnyitása
   };
 
   const handleRemoveFromCart = (productId) => {
@@ -70,12 +74,16 @@ function App() {
             <Home 
               products={products}
               cartItems={cartItems}
+              isCartOpen={isCartOpen}
+              setIsCartOpen={setIsCartOpen}
               addToCart={handleAddToCart}
               removeFromCart={handleRemoveFromCart}
               updateQuantity={handleUpdateQuantity}
             />
           } 
         />
+        <Route path="/about" element={<About />} />
+        <Route path="/checkout" element={<Checkout cartItems={cartItems} />} />
 
         {/* Admin oldal */}
         <Route 

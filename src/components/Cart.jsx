@@ -1,21 +1,30 @@
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = ({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuantity }) => {
   const totalPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const navigate = useNavigate();
 
-  if (!isOpen) return null;
+  const handleCheckout = () => {
+    onClose();
+    navigate('/checkout');
+  };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Backdrop */}
+    <div className={`fixed inset-0 z-50 overflow-hidden pointer-events-none`}>
+      {/* Backdrop - Fade in/out */}
       <div 
-        className="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity" 
+        className={`absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 pointer-events-auto ${
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
         onClick={onClose}
       />
       
-      {/* Sidebar */}
-      <div className="absolute inset-y-0 right-0 max-w-md w-full flex pl-10 pointer-events-none">
-        <div className="w-full h-full bg-white shadow-2xl pointer-events-auto flex flex-col transform transition-transform duration-300 animate-slide-in">
+      {/* Sidebar - Slide in/out */}
+      <div className={`absolute inset-y-0 right-0 max-w-md w-full flex pl-10 pointer-events-none transform transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
+        <div className="w-full h-full bg-white shadow-2xl pointer-events-auto flex flex-col">
           
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-wax-200">
@@ -108,7 +117,8 @@ const Cart = ({ isOpen, onClose, cartItems, onRemoveItem, onUpdateQuantity }) =>
                 A szállítási költség a pénztárnál kerül kiszámításra.
               </p>
               <button
-                className="w-full rounded-full border border-transparent bg-lavender px-6 py-4 text-base font-medium text-white shadow-sm hover:bg-lavender-dark transition-all hover:shadow-lg"
+                onClick={handleCheckout}
+                className="w-full block text-center rounded-full border border-transparent bg-lavender px-6 py-4 text-base font-medium text-white shadow-sm hover:bg-lavender-dark transition-all hover:shadow-lg"
               >
                 Tovább a pénztárhoz
               </button>

@@ -17,17 +17,22 @@ Egy prémium megjelenésű, természetbarát, kézműves szójaviasz gyertyákat
 - **Animációk:** Framer Motion
 - **Navigáció:** React Router
 
-## 📈 Aktuális Állapot (2026.01.06)
+## 📈 Aktuális Állapot (2026.01.07)
 1.  **Projekt inicializálva:** React + Vite alapok készen vannak.
 2.  **Design rendszer:** Tailwind beállítva az egyedi színekkel.
-3.  **Kezdőoldal (MVP):** Hero szekció, Navigáció és Jellemzők (Features) blokk elkészítve az App.jsx-ben.
+3.  **Webshop (MVP):** Hero szekció, Navigáció, Kategória szűrés és Terméklista.
+4.  **Galéria:** Lightbox funkció több képpel termékenként.
+5.  **Kosár:** Animált oldalsáv, mennyiség kezelése, termék hozzáadása/törlése.
+6.  **Pénztár:** Teljes Checkout folyamat űrlappal és sikeres rendelés visszajelzéssel.
+7.  **Admin felület:** Dashboard statisztikákkal, termék hozzáadása, szerkesztése és törlése (CRUD).
+8.  **Oldalak:** Kezdőlap, Rólunk, Pénztár, Admin.
 
 ## 🚀 Következő Lépések
-- [ ] Projekt átmozgatása a végleges mappába.
-- [ ] Fejlesztői szerver indítása és ellenőrzés.
-- [ ] Webshop (terméklista) komponens kidolgozása.
-- [ ] Termék adatstruktúra (JSON) létrehozása.
-- [ ] Kosár funkció implementálása.
+- [ ] Valódi adatbázis (pl. Firebase vagy Supabase) bekötése.
+- [ ] Képek feltöltése saját szerverre/tárhelyre.
+- [ ] Jelszavas védelem az Admin felülethez.
+- [ ] Email küldés implementálása a rendelésekről.
+- [ ] Fizetési kapu (Stripe/Barion) integrációja.
 
 ---
 *Készítette: Gemini (Illés kérésére)*
